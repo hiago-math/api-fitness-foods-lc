@@ -12,7 +12,7 @@ Route::group(['prefix' => 'api'], function () {
             'environment' => config('custom.AMBIENTE'),
             'name' => strtoupper(config('custom.PROJETO')),
             'online_time' => time_start_app(),
-            'memeory' => memory_usage(),
+            'memory' => memory_usage(),
             'db' => [
                 'mongo' => db_mongo_check() ? 'OK' : 'ERROR'
             ],
