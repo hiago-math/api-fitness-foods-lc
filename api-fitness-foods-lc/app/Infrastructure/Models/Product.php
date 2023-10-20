@@ -6,9 +6,9 @@ use Jenssegers\Mongodb\Eloquent\Model as ModelMongo;
 
 class Product extends ModelMongo
 {
-    protected string $connection = 'mongodb';
+    protected $connection = 'mongodb';
     protected $guarded = ['created_at', 'updated_at'];
-    protected string $collection = 'products';
+    protected $collection = 'products';
 
     protected $fillable = [
         'code',
@@ -35,4 +35,9 @@ class Product extends ModelMongo
         'main_category',
         'image_url'
     ];
+
+    public function getFillable()
+    {
+        return $this->fillable;
+    }
 }

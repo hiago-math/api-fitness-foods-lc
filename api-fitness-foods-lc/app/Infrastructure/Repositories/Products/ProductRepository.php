@@ -3,12 +3,13 @@
 namespace Infrastructure\Repositories\Products;
 
 use App\Infrastructure\Models\Product;
+use Domain\Products\Interfaces\Repositories\IProductRepository;
 use Domain\Products\Interfaces\Repositories\ISynctRepository;
 use Illuminate\Support\Collection;
 use Infrastructure\Repositories\AbstractRepository;
 use Shared\DTO\Product\CreateProductDTO;
 
-class SynctRepository extends AbstractRepository implements ISynctRepository
+class ProductRepository extends AbstractRepository implements IProductRepository
 {
     public function __construct()
     {
@@ -26,5 +27,10 @@ class SynctRepository extends AbstractRepository implements ISynctRepository
            );
 
        return $this->toCollect($product->toArray());
+    }
+
+    public function getFillable(): array
+    {
+       return $this->getModel()->getFillable();
     }
 }

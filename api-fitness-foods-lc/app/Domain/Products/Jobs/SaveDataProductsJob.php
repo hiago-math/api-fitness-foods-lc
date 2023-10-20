@@ -2,6 +2,7 @@
 
 namespace App\Domain\Products\Jobs;
 
+use Domain\Products\Interfaces\Repositories\IProductRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -16,16 +17,22 @@ class SaveDataProductsJob implements ShouldQueue
     public function __construct(
         private array $contents
     )
-    {}
+    {
+    }
 
     public function handle(
-        CreateProductDTO $createProductDto
+        CreateProductDTO   $createProductDto,
+        IProductRepository $productRepository
     )
     {
         foreach ($this->contents as $content) {
-            $dto = $createProductDto->register(...$content);
-            dd($dto->toArray());
+            $fields = $productRepository->getFillable();
+            $content = collect($content)
+                ->only($fields)
+                ->toArray();
 
+            $dto = $createProductDto->register(...$content);
+            $productRepository->createProducts($dto);
         }
     }
 }

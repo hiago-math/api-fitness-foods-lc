@@ -163,13 +163,12 @@ class CreateProductDTO extends DTOAbstract
         ?string $ingredients_text,
         ?string $traces,
         ?string $serving_size,
-        ?float $serving_quantity,
-        ?float $nutriscore_score,
+        ?string $serving_quantity,
+        ?string $nutriscore_score,
         ?string $nutriscore_grade,
         ?string $main_category,
         ?string $image_url,
         ?string $code,
-        ...$trash
     )
     {
         $this->code = $code;
@@ -190,8 +189,8 @@ class CreateProductDTO extends DTOAbstract
         $this->ingredients_text = $ingredients_text;
         $this->traces = $traces;
         $this->serving_size = $serving_size;
-        $this->serving_quantity = $serving_quantity;
-        $this->nutriscore_score = $nutriscore_score;
+        $this->serving_quantity = empty($serving_quantity) ? 0 : (float)$serving_quantity;
+        $this->nutriscore_score = empty($nutriscore_score) ? 0 : (float)$nutriscore_score;
         $this->nutriscore_grade = $nutriscore_grade;
         $this->main_category = $main_category;
         $this->image_url = $image_url;

@@ -8,7 +8,7 @@ abstract class AbstractRepository
 {
     private $model;
 
-    public function __construct(string  $model)
+    public function __construct(string $model)
     {
         $this->model = instantiate_class($model);
     }
@@ -28,5 +28,10 @@ abstract class AbstractRepository
     protected function toCollect(array $values): Collection
     {
         return collect($values);
+    }
+
+    protected function getAttributes(): array
+    {
+        return $this->model->fillable;
     }
 }

@@ -8,4 +8,6 @@ use Shared\DTO\Product\CreateProductDTO;
 interface IProductRepository
 {
     public function createProducts(CreateProductDTO $createProductDto): Collection;
+
+    public function getFillable(): array;
 }
