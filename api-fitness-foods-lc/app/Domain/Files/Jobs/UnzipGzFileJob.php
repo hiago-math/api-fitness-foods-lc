@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Files\Jobs;
+namespace Domain\Files\Jobs;
 
 use Domain\Files\Actions\UnzipGzFileAction;
 use Illuminate\Bus\Queueable;

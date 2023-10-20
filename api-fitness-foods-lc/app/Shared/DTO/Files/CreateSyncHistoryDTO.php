@@ -4,6 +4,7 @@ namespace Shared\DTO\Files;
 
 use Carbon\Carbon;
 use Shared\DTO\DTOAbstract;
+use Shared\Enums\StatusSyncHistoryEnum;
 
 class CreateSyncHistoryDTO extends DTOAbstract
 {
@@ -21,12 +22,12 @@ class CreateSyncHistoryDTO extends DTOAbstract
      * @param string|null $filename
      * @return CreateSyncHistoryDTO
      */
-    public function register(?string $hash, ?string $filename, ?string $status): self
+    public function register(?string $hash, ?string $filename): self
     {
         $this->hash = $hash;
         $this->filename = $filename;
         $this->sync_at = Carbon::now()->format('Y-m-d H:i:s');
-        $this->status = $status;
+        $this->status = StatusSyncHistoryEnum::STARTED;
 
         return $this;
     }

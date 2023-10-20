@@ -2,7 +2,7 @@
 
 namespace Infrastructure\Repositories\Products;
 
-use App\Infrastructure\Models\Product;
+use Infrastructure\Models\Product;
 use Domain\Products\Interfaces\Repositories\IProductRepository;
 use Domain\Products\Interfaces\Repositories\ISynctRepository;
 use Illuminate\Support\Collection;
@@ -16,6 +16,9 @@ class ProductRepository extends AbstractRepository implements IProductRepository
         parent::__construct(Product::class);
     }
 
+    /**
+     * @{inheritDoc}
+     */
     public function createProducts(CreateProductDTO $createProductDto): Collection
     {
        $product = $this->getModel()
@@ -29,6 +32,9 @@ class ProductRepository extends AbstractRepository implements IProductRepository
        return $this->toCollect($product->toArray());
     }
 
+    /**
+     * @{inheritDoc}
+     */
     public function getFillable(): array
     {
        return $this->getModel()->getFillable();
