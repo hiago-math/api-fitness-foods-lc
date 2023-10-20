@@ -14,7 +14,8 @@ Route::group(['prefix' => 'api'], function () {
             'online_time' => time_start_app(),
             'memory' => memory_usage(),
             'db' => [
-                'mongo' => db_mongo_check() ? 'OK' : 'ERROR'
+                'mongodb' => db_mongo_check() ? 'OK' : 'ERROR',
+                'redis' => db_redis_check() ? 'OK' : 'ERROR'
             ],
             'fw' => ['type' => 'laravel', 'version' => app()->version()]
         ]);

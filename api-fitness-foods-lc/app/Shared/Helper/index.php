@@ -209,6 +209,24 @@ if (!function_exists('db_mongo_check')) {
     }
 }
 
+if (!function_exists('db_redis_check')) {
+
+    function db_redis_check()
+    {
+        try {
+            $client = new \Predis\Client([
+                'scheme' => 'tcp',
+                'host' => 'redis',
+                'port' => 6379,
+            ]);
+            $client->ping();
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+}
+
 if (!function_exists('time_start_app')) {
 
     function time_start_app()
