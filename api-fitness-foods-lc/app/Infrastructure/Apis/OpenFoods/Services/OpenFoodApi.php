@@ -2,6 +2,7 @@
 
 namespace Infrastructure\Apis\OpenFoods\Services;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Infrastructure\Apis\BaseServiceApi;
 use Infrastructure\Apis\OpenFoods\Interfaces\IOpenFoodApi;
 
@@ -17,6 +18,9 @@ class OpenFoodApi extends BaseServiceApi implements IOpenFoodApi
         return $this->request('GET', 'index.txt');
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public function downloadFile(string $filename)
     {
         return $this->request('GET', "{$filename}");

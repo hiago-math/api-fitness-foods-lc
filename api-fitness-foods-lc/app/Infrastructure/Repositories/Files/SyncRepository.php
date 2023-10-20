@@ -22,7 +22,7 @@ class SyncRepository extends AbstractRepository implements ISyncRepository
     public function createSyncHistory(CreateSyncHistoryDTO $createSyncHistoryDto): Collection
     {
         $history = $this->getModel()
-            ->firstOrCreate(
+            ->create(
                 $createSyncHistoryDto->toArray()
             );
 

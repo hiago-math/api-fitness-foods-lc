@@ -19,5 +19,5 @@ interface IFileService
      * @param string $path
      * @return void
      */
-    public function cleanStoage(string $path = '/gz'): void;
+    public function deleteFile(string $path): void;
 }

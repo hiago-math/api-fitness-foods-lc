@@ -1,8 +1,12 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Jenssegers\Mongodb\Connection;
+use MongoDB\Driver\Exception\AuthenticationException;
 
 if (!function_exists('get_files_routes')) {
 
@@ -189,4 +193,37 @@ if (!function_exists('get_hash_file')) {
         return hash('md5', $content);
     }
 }
+
+if (!function_exists('db_mongo_check')) {
+
+    function db_mongo_check()
+    {
+        try {
+            $mongodb = new Connection(config('database.connections.mongodb'));;
+            $con = $mongodb->getMongoClient()->listDatabaseNames();
+            if (!empty($con)) return true;
+            return false;
+        } catch (AuthenticationException $authenticationException) {
+            return false;
+        }
+    }
+}
+
+if (!function_exists('time_start_app')) {
+
+    function time_start_app()
+    {
+        $timeStarted = Storage::get('uptime.txt');
+        return Carbon::parse($timeStarted)->timezone(config('app.timezone'))->diffForHumans();
+    }
+}
+
+if (!function_exists('memory_usage')) {
+
+    function memory_usage()
+    {
+        return round(memory_get_usage() / (1024 * 1024), 2) . ' MB';
+    }
+}
+
 

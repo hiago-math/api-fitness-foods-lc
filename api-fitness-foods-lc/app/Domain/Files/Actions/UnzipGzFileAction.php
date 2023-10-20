@@ -12,29 +12,27 @@ class UnzipGzFileAction
     )
     {}
 
-    public function execute(string $filename, string $binFile)
+    public function execute(string $filename, string $pathGz)
     {
-        $content = '';
-        $unzipFile = $this->saveFileGzTemporary($binFile, $filename);
+        try {
+            $content = '';
+            $gz = gzopen($pathGz, 'rb');
 
-        $gz = gzopen($unzipFile, 'rb');
+            while (!gzeof($gz)) {
+                $chunk = gzread($gz, 1024);
+                $content .= $chunk;
+            }
 
-        while (!gzeof($gz)) {
-            $chunk = gzread($gz, 1024);
-            $content .= $chunk;
+            gzclose($gz);
+            $this->fileService->deleteFile('gz/' . $filename);
+
+            $path = 'js/' . Str::beforeLast($filename, '.gz');
+            return $this->fileService->saveFileStorage($content, $path);
+
+        } catch (\Exception $exception) {
+            send_log($exception->getMessage(), ['CLASS' => __CLASS__], 'error', $exception);
         }
-
-        gzclose($gz);
-        $this->fileService->cleanStoage();
-
-        $path = 'js/' . Str::beforeLast($filename, '.gz');
-        return $this->fileService->saveFileStorage($content, $path);
-
     }
 
-    private function saveFileGzTemporary(string $binFile, string $name)
-    {
-        $path = 'gz/' . $name;
-        return $this->fileService->saveFileStorage($binFile, $path);
-    }
+
 }

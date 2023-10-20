@@ -21,13 +21,14 @@ class ProcessDataProductsJob implements ShouldQueue
 
     public function handle(
         IFileService $fileService
-    )
+    ): void
     {
         try {
             $filenames = Storage::disk('downloads')->files('/js');
 
             foreach ($filenames as $filename) {
                 $content = Storage::disk('downloads')->get($filename);
+                $fileService->deleteFile($filename);
 
                 $hash = get_hash_file($content);
                 $this->createSyncHistory($hash, Str::after($filename, 'js/'));
@@ -36,8 +37,6 @@ class ProcessDataProductsJob implements ShouldQueue
 
                 Queue::pushOn('default', new SaveDataProductsJob($content, $hash));
             }
-
-            $fileService->cleanStoage('/js');
         } catch (\Exception $exception) {
             send_log($exception->getMessage());
         }

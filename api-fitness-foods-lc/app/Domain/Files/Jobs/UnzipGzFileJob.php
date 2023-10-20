@@ -14,15 +14,15 @@ class UnzipGzFileJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        private string $binFile,
+        private string $pathGz,
         private string $filename,
     )
     {}
 
-    public function handle(UnzipGzFileAction $unzipGzFileAction)
+    public function handle(UnzipGzFileAction $unzipGzFileAction): void
     {
         try {
-            $unzipGzFileAction->execute($this->filename, $this->binFile);
+            $unzipGzFileAction->execute($this->filename, $this->pathGz);
         } catch (\Exception $exception) {
             send_log($exception->getMessage(), ['filename' => $this->filename], 'Error', $exception);
         }
