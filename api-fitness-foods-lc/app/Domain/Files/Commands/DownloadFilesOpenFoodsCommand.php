@@ -2,6 +2,7 @@
 
 namespace Domain\Files\Commands;
 
+use Domain\Files\Interfaces\Services\IFileService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -11,16 +12,27 @@ class DownloadFilesOpenFoodsCommand extends Command
 {
     protected $signature = 'download:files';
 
-    public function handle(IOpenFoodApi $openFoodApi)
+    public function handle(
+        IOpenFoodApi $openFoodApi,
+        IFileService $fileService,
+
+    )
     {
         $nameFiles = $openFoodApi->getFilesGz();
 
         $nameFiles = explode(PHP_EOL, $nameFiles);
         foreach ($nameFiles as $nameFile) {
-            $binFile = $openFoodApi->downloadFile($nameFile);
-            $path = 'sync_products/' . Str::beforeLast($nameFile, '.gz');
-            Storage::disk('downloads')->put($path, $binFile);
-            dd();
+            $binFile = $fileService->downloadFile($nameFile);
+            $hash = $this->getHashFile($binFile);
+
+
         }
+    }
+
+    private function getHashFile(string $binFile)
+    {
+        $fileContent = file_get_contents($binFile);
+
+        return hash('md5', $fileContent);
     }
 }
