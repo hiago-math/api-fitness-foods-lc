@@ -4,7 +4,20 @@ namespace Domain\Files\Interfaces\Services;
 
 interface IFileService
 {
-    public function downloadFile(string $nameFile);
+    /**
+     * @param string $filename
+     * @return mixed
+     */
+    public function downloadFile(string $filename);
+
+    /**
+     * @return mixed
+     */
     public function saveFileStorage();
-    public function cleanStoage();
+
+    /**
+     * @param string $path
+     * @return void
+     */
+    public function cleanStoage(string $path = '/gz'): void;
 }

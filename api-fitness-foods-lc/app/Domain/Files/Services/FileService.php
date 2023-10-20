@@ -3,6 +3,7 @@
 namespace Domain\Files\Services;
 
 use Domain\Files\Interfaces\Services\IFileService;
+use Illuminate\Support\Facades\Storage;
 use Infrastructure\Apis\OpenFoods\Services\OpenFoodApi;
 
 class FileService implements IFileService
@@ -10,9 +11,9 @@ class FileService implements IFileService
     public function __construct(
         private OpenFoodApi $openFoodApi
     ) {}
-    public function downloadFile(string $nameFile)
+    public function downloadFile(string $filename)
     {
-        return $this->openFoodApi->downloadFile($nameFile);
+        return $this->openFoodApi->downloadFile($filename);
     }
 
     public function saveFileStorage()
@@ -20,8 +21,8 @@ class FileService implements IFileService
         // TODO: Implement saveFileStorage() method.
     }
 
-    public function cleanStoage()
+    public function cleanStoage(string $path = '/gz')
     {
-        // TODO: Implement cleanStoage() method.
+        Storage::disk('download')->deleteDirectory($path);
     }
 }

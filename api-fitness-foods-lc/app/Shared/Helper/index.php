@@ -179,4 +179,16 @@ if (!function_exists('remove_null_array')) {
     }
 }
 
+if (!function_exists('get_hash_file')) {
+    /**
+     * @param string $binFile
+     * @return string
+     */
+    function get_hash_file(string $binFile): string
+    {
+        $fileContent = file_get_contents($binFile);
+
+        return hash('md5', $fileContent);
+    }
+}
 

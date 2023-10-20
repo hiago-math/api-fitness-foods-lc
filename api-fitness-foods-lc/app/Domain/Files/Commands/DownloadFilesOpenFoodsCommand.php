@@ -2,15 +2,11 @@
 
 namespace Domain\Files\Commands;
 
-use Domain\Files\Actions\UnzipFileAction;
-use Domain\Files\Interfaces\Repositories\ISyncRepository;
+use App\Domain\Products\Jobs\UnzipGzFileJob;
 use Domain\Files\Interfaces\Services\IFileService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Queue;
 use Infrastructure\Apis\OpenFoods\Interfaces\IOpenFoodApi;
-use Shared\DTO\Files\CreateSyncHistoryDTO;
-use Shared\Enums\StatusSyncHistoryEnum;
 
 class DownloadFilesOpenFoodsCommand extends Command
 {
@@ -19,32 +15,21 @@ class DownloadFilesOpenFoodsCommand extends Command
     public function handle(
         IOpenFoodApi $openFoodApi,
         IFileService $fileService,
-        ISyncRepository $syncRepository,
-        UnzipFileAction $unzipFileAction,
-        CreateSyncHistoryDTO $createSyncHistoryDto,
     )
     {
-        $nameFiles = $openFoodApi->getFilesGz();
+        try {
+            $filenames = $openFoodApi->getFilesGz();
+            $filenames = explode(PHP_EOL, $filenames);
 
-        $nameFiles = explode(PHP_EOL, $nameFiles);
-        foreach ($nameFiles as $nameFile) {
-            $binFile = $fileService->downloadFile($nameFile);
+            foreach ($filenames as $filename) {
+                if (empty($filename)) continue;
 
-            $unzipFileAction->execute($nameFile, $binFile);
-
-            dd();
-
-            $createSyncHistoryDto->register($hash, $nameFile, StatusSyncHistoryEnum::STARTED);
-            $syncRepository->createSyncHistory($createSyncHistoryDto);
-
-
+                $binFile = $fileService->downloadFile($filename);
+                Queue::pushOn('default', new UnzipGzFileJob($binFile, $filename));
+            }
+        } catch (\Exception $exception) {
+            send_log($exception->getMessage());
         }
     }
 
-    private function getHashFile(string $binFile)
-    {
-        $fileContent = file_get_contents($binFile);
-
-        return hash('md5', $fileContent);
-    }
 }
