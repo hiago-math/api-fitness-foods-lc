@@ -26,4 +26,5 @@ class UnzipGzFileJob implements ShouldQueue
         } catch (\Exception $exception) {
             send_log($exception->getMessage(), ['filename' => $this->filename], 'Error', $exception);
         }
+    }
 }
