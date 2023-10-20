@@ -3,7 +3,9 @@
 namespace Domain\Products\Jobs;
 
 use Domain\Files\Interfaces\Repositories\ISyncRepository;
+use Domain\Files\Interfaces\Services\IFileService;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -17,7 +19,9 @@ class ProcessDataProductsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function handle()
+    public function handle(
+        IFileService $fileService
+    )
     {
         try {
             $filenames = Storage::disk('downloads')->files('/js');
@@ -31,8 +35,9 @@ class ProcessDataProductsJob implements ShouldQueue
                 $content = $this->getFirstHundred($content);
 
                 Queue::pushOn('default', new SaveDataProductsJob($content, $hash));
-
             }
+
+            $fileService->cleanStoage('/js');
         } catch (\Exception $exception) {
             send_log($exception->getMessage());
         }
@@ -60,7 +65,7 @@ class ProcessDataProductsJob implements ShouldQueue
      * @param string $hash
      * @param string $filename
      * @return void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     private function createSyncHistory(string $hash, string $filename): void
     {

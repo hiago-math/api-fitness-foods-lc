@@ -2,7 +2,8 @@
 
 namespace Application\Console;
 
-use Application\Console\Commands\MakeControllerCommand;
+use Domain\Files\Commands\DownloadFilesOpenFoodsCommand;
+use Domain\Products\Jobs\ProcessDataProductsJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\File;
@@ -17,7 +18,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command(DownloadFilesOpenFoodsCommand::class)
+            ->dailyAt('00:30');
+
+        $schedule->job(new ProcessDataProductsJob(), 'default')->dailyAt('02:50');
     }
 
     /**
@@ -43,7 +47,7 @@ class Kernel extends ConsoleKernel
                 $fileName = $file->getFilename();
                 if (strtolower($fileName) != 'kernel.php') {
                     $class = str_replace(
-                        [base_path('app'),  '.php', '/'],
+                        [base_path('app'), '.php', '/'],
                         ['', '', '\\'],
                         $file->getPathname()
                     );
