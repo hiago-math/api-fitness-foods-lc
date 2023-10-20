@@ -14,7 +14,7 @@ class CreateSyncHistoryDTO extends DTOAbstract
 
     public ?string $status;
 
-    public Carbon $sync_at;
+    public string $sync_at;
 
     /**
      * @param string|null $hash
@@ -25,7 +25,7 @@ class CreateSyncHistoryDTO extends DTOAbstract
     {
         $this->hash = $hash;
         $this->filename = $filename;
-        $this->sync_at = Carbon::now();
+        $this->sync_at = Carbon::now()->format('Y-m-d H:i:s');
         $this->status = $status;
 
         return $this;

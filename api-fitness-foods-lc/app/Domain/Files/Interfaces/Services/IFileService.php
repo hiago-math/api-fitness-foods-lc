@@ -8,12 +8,12 @@ interface IFileService
      * @param string $filename
      * @return mixed
      */
-    public function downloadFile(string $filename);
+    public function downloadFile(string $filename): string;
 
     /**
      * @return mixed
      */
-    public function saveFileStorage();
+    public function saveFileStorage(string $content, string $path, string $disk = 'downloads'): string;
 
     /**
      * @param string $path

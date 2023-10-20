@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Domain\Products\Jobs;
+namespace App\Domain\Files\Jobs;
 
 use Domain\Files\Actions\UnzipGzFileAction;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class UnzipGzFileJob implements ShouldQueue
 {

@@ -184,11 +184,9 @@ if (!function_exists('get_hash_file')) {
      * @param string $binFile
      * @return string
      */
-    function get_hash_file(string $binFile): string
+    function get_hash_file(string $content): string
     {
-        $fileContent = file_get_contents($binFile);
-
-        return hash('md5', $fileContent);
+        return hash('md5', $content);
     }
 }
 

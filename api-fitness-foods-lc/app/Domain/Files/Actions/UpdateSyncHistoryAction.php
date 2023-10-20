@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Files\Actions;
+namespace App\Domain\Files\Actions;
 
 use Domain\Files\Interfaces\Repositories\ISyncRepository;
 use Domain\Files\Interfaces\Services\IFileService;
@@ -8,7 +8,7 @@ use Infrastructure\Apis\OpenFoods\Services\OpenFoodApi;
 use Shared\DTO\Files\CreateSyncHistoryDTO;
 use Shared\Enums\StatusSyncHistoryEnum;
 
-class CreateSyncHistoryAction
+class UpdateSyncHistoryAction
 {
     public function __construct(
         private ISyncRepository $syncRepository,
@@ -17,6 +17,6 @@ class CreateSyncHistoryAction
 
     public function execute(CreateSyncHistoryDTO $createSyncHistoryDto)
     {
-        return $this->syncRepository->createSyncHistory($createSyncHistoryDto);
+        $this->syncRepository->createSyncHistory($createSyncHistoryDto);
     }
 }

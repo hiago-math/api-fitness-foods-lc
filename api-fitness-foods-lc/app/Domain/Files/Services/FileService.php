@@ -11,18 +11,20 @@ class FileService implements IFileService
     public function __construct(
         private OpenFoodApi $openFoodApi
     ) {}
-    public function downloadFile(string $filename)
+    public function downloadFile(string $filename): string
     {
         return $this->openFoodApi->downloadFile($filename);
     }
 
-    public function saveFileStorage()
-    {
-        // TODO: Implement saveFileStorage() method.
-    }
-
-    public function cleanStoage(string $path = '/gz')
+    public function cleanStoage(string $path = '/gz'): void
     {
         Storage::disk('download')->deleteDirectory($path);
+    }
+
+    public function saveFileStorage(string $content, string $path, string $disk = 'downloads'): string
+    {
+        Storage::disk('downloads')->put($path, $content);
+
+        return Storage::disk('downloads')->path($path);
     }
 }

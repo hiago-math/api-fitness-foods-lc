@@ -2,17 +2,22 @@
 
 namespace Domain\Files\Actions;
 
-use Illuminate\Support\Facades\Storage;
+use Domain\Files\Interfaces\Services\IFileService;
 use Illuminate\Support\Str;
 
 class UnzipGzFileAction
 {
+    public function __construct(
+        private IFileService $fileService
+    )
+    {}
+
     public function execute(string $filename, string $binFile)
     {
         $content = '';
-        $file = $this->saveFileGzTemporary($binFile, $filename);
+        $unzipFile = $this->saveFileGzTemporary($binFile, $filename);
 
-        $gz = gzopen($file, 'rb');
+        $gz = gzopen($unzipFile, 'rb');
 
         while (!gzeof($gz)) {
             $chunk = gzread($gz, 1024);
@@ -20,19 +25,16 @@ class UnzipGzFileAction
         }
 
         gzclose($gz);
+        $this->fileService->cleanStoage();
 
-        $path = 'js/' .  Str::beforeLast($filename, '.gz');
-        Storage::disk('downloads')->put($path, $content);
-
-        return Storage::disk('downloads')->path($path);
+        $path = 'js/' . Str::beforeLast($filename, '.gz');
+        return $this->fileService->saveFileStorage($content, $path);
 
     }
 
     private function saveFileGzTemporary(string $binFile, string $name)
     {
         $path = 'gz/' . $name;
-        Storage::disk('downloads')->put($path, $binFile);
-
-        return Storage::disk('downloads')->path($path);
+        return $this->fileService->saveFileStorage($binFile, $path);
     }
 }

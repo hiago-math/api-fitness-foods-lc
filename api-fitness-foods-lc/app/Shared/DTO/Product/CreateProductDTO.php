@@ -4,6 +4,7 @@ namespace Shared\DTO\Product;
 
 use Carbon\Carbon;
 use Shared\DTO\DTOAbstract;
+use Shared\Enums\StatusProductEnum;
 
 class CreateProductDTO extends DTOAbstract
 {
@@ -18,9 +19,9 @@ class CreateProductDTO extends DTOAbstract
     public ?string $status;
 
     /**
-     * @var Carbon|null
+     * @var string
      */
-    public ?Carbon $imported_t;
+    public string $imported_t;
 
     /**
      * @var string|null
@@ -123,9 +124,6 @@ class CreateProductDTO extends DTOAbstract
     public ?string $image_url;
 
     /**
-     * @param string|null $code
-     * @param string|null $status
-     * @param string|null $imported_t
      * @param string|null $url
      * @param string|null $creator
      * @param int|null $created_t
@@ -146,6 +144,8 @@ class CreateProductDTO extends DTOAbstract
      * @param string|null $nutriscore_grade
      * @param string|null $main_category
      * @param string|null $image_url
+     * @param string|null $code
+     * @return CreateProductDTO
      */
     public function register(
         ?string $url,
@@ -169,11 +169,12 @@ class CreateProductDTO extends DTOAbstract
         ?string $main_category,
         ?string $image_url,
         ?string $code,
+        ...$trash
     )
     {
         $this->code = $code;
-        $this->status = 'published';
-        $this->imported_t = Carbon::now()->timezone('America/New_York');
+        $this->status = StatusProductEnum::PUBLISHED;
+        $this->imported_t = Carbon::now()->format('Y-m-d H:i:s');
         $this->url = $url;
         $this->creator = $creator;
         $this->created_t = $created_t;
