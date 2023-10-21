@@ -4,10 +4,12 @@ namespace Application\Http\Validators\Products;
 
 use Application\Http\Validators\BaseValidatorAbstract;
 
-class GetProductByCodeValidator extends BaseValidatorAbstract
+class ProductByCodeValidator extends BaseValidatorAbstract
 {
     public function __construct()
     {
-        parent::$rules = [];
+        parent::$rules = [
+            'code' => ['required', 'string']
+        ];
     }
 }

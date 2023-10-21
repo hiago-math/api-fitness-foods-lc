@@ -7,8 +7,9 @@ use Jenssegers\Mongodb\Eloquent\Model as ModelMongo;
 class Product extends ModelMongo
 {
     protected $connection = 'mongodb';
-    protected $guarded = ['created_at', 'updated_at'];
     protected $collection = 'products';
+    protected $guarded = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     protected $fillable = [
         'code',

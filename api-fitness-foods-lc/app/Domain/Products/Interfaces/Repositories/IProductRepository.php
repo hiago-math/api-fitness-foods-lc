@@ -5,6 +5,7 @@ namespace Domain\Products\Interfaces\Repositories;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Shared\DTO\Product\CreateProductDTO;
+use Shared\DTO\Product\UpdatedProductDTO;
 use Shared\DTO\Utils\PaginateDTO;
 
 interface IProductRepository
@@ -31,4 +32,17 @@ interface IProductRepository
      * @return Collection
      */
     public function getProductByCode(string $code): Collection;
+
+    /**
+     * @param UpdatedProductDTO $updatedProductDto
+     * @return bool
+     */
+    public function updateProductByCode(UpdatedProductDTO $updatedProductDto): bool;
+
+    /**
+     * @param string $code
+     * @return bool
+     */
+    public function deleteProductByCode(string $code): bool;
+
 }
