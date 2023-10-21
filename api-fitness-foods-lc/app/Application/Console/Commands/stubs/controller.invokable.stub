@@ -17,11 +17,11 @@ class {{ class }} extends Controller
         try {
             $this->validate($request, $validator::getRules(), $validator::getMessages());
 
-            $this->response_ok([], __('message.success'));
+            return $this->response_ok([], __('message.success'));
         } catch (ValidationException $e) {
-            $this->response_fail($e->errors(), __('message.error'));
+            return $this->response_fail($e->errors(), __('message.error'));
         } catch (\Exception $e) {
-            $this->response_fail($e->errors(), __('message.error'), 500);
+            return $this->response_fail($e->errors(), __('message.error'), 500);
         }
     }
 }

@@ -201,10 +201,10 @@ if (!function_exists('db_mongo_check')) {
         try {
             $mongodb = new Connection(config('database.connections.mongodb'));;
             $con = $mongodb->getMongoClient()->listDatabaseNames();
-            if (!empty($con)) return true;
-            return false;
+            if (!empty($con)) return "Ok";
+            return "Error";
         } catch (AuthenticationException $authenticationException) {
-            return false;
+            return "Error";
         }
     }
 }
@@ -220,9 +220,9 @@ if (!function_exists('db_redis_check')) {
                 'port' => 6379,
             ]);
             $client->ping();
-            return true;
+            return "Ok";
         } catch (\Exception $exception) {
-            return false;
+            return "Error";
         }
     }
 }

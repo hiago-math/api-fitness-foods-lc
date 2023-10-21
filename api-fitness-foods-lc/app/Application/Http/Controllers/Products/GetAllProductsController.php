@@ -1,0 +1,40 @@
+<?php
+
+namespace Application\Http\Controllers\Products;
+
+use Application\Http\Controllers\Controller;
+use Application\Http\Resource\PaginateResource;
+use Application\Http\Validators\Utils\PaginateValidator;
+use Domain\Products\Interfaces\Repositories\IProductRepository;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Shared\DTO\Utils\PaginateDTO;
+
+class GetAllProductsController extends Controller
+{
+    public function __invoke(
+        Request            $request,
+        PaginateDTO        $paginateDto,
+        PaginateValidator $paginateValidator,
+        IProductRepository $productRepository,
+    ): JsonResponse
+    {
+        try {
+            $this->validate($request, $paginateValidator::getRules(), $paginateValidator::getMessages());
+
+            $paginateDto->register(...$request->all());
+            $products = $productRepository->getAllProducts($paginateDto);
+
+            if ($products->isEmpty()) {
+                return $this->response_fail($products->toArray(), __('default.process_empty'));
+            }
+
+            return $this->response_ok((new PaginateResource($products))->toArray($request), __('default.process_ok'));
+        } catch (ValidationException $e) {
+            return $this->response_fail($e->errors(), __('message.error'));
+        } catch (\Exception $e) {
+            return $this->response_fail($e->getMessage(), __('message.error'), 500);
+        }
+    }
+}

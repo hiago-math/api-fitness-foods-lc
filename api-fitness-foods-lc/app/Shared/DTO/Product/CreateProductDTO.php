@@ -171,7 +171,7 @@ class CreateProductDTO extends DTOAbstract
         ?string $code,
     )
     {
-        $this->code = $code;
+        $this->code = str_replace(['\\', '"'], '',$code);
         $this->status = StatusProductEnum::PUBLISHED;
         $this->imported_t = Carbon::now()->format('Y-m-d H:i:s');
         $this->url = $url;

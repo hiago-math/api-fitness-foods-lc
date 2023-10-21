@@ -25,8 +25,9 @@ abstract class AbstractRepository
      * @param array $values
      * @return Collection
      */
-    protected function toCollect(array $values): Collection
+    protected function toCollect(array $values = null): Collection
     {
+        $values = $values ?? [];
         return collect($values);
     }
 

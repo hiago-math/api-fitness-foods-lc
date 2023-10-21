@@ -1,0 +1,3 @@
+2023/10/21 11:28:33 [emerg] 1#1: host not found in upstream "app" in /etc/nginx/conf.d/laravel-ddd-example.conf:15
+2023/10/21 11:34:22 [emerg] 1#1: host not found in upstream "app" in /etc/nginx/conf.d/laravel-ddd-example.conf:15
+2023/10/21 11:34:49 [emerg] 1#1: host not found in upstream "app" in /etc/nginx/conf.d/laravel-ddd-example.conf:15
