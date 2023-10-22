@@ -6,7 +6,6 @@ use Jenssegers\Mongodb\Connection;
 Route::group(['prefix' => 'api'], function () {
 
     Route::get('/', function () {
-          \Illuminate\Support\Facades\Queue::push(new \Domain\Products\Jobs\ProcessDataProductsJob());
         return response()->json([
             'success' => true,
             'environment' => config('custom.AMBIENTE'),

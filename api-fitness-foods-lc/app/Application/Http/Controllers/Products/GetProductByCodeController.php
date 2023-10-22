@@ -42,6 +42,7 @@ class GetProductByCodeController extends Controller
             $this->validate($request, $getProductByCodeValidator::getRules(), $getProductByCodeValidator::getMessages());
 
             $product = $productRepository->getProductByCode($code);
+            dd($product);
 
             if ($product->isEmpty()) {
                 return $this->response_fail([], __('default.process_empty'), 404);

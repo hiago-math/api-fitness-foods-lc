@@ -19,9 +19,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(DownloadFilesOpenFoodsCommand::class)
-            ->dailyAt('00:30');
+            ->dailyAt('18:45');
 
-        $schedule->job(new ProcessDataProductsJob(), 'default')->dailyAt('02:50');
+        $schedule->job(new ProcessDataProductsJob(), 'default')->dailyAt('18:50');
     }
 
     /**

@@ -37,7 +37,37 @@ services:
             - COMPOSER_MEMORY_LIMIT=-1
             #- PHP_IDE_CONFIG:serverName=Xdebug
         depends_on:
-            -   mongodb
+            - mongodb
+        user: 1000:1000
+        networks:
+            - MyNetwork
+
+    queue_worker:
+        container_name: queue-worker
+        build:
+            context: ./docker/build/php-fpm
+            dockerfile: Dockerfile
+        command: php artisan queue:work
+        volumes:
+            - ${APPLICATION}:/var/www/html
+        depends_on:
+            - app
+
+        user: 1000:1000
+        networks:
+            - MyNetwork
+
+    schedule_runner:
+        container_name: schedule-runner
+        restart: always
+        build:
+            context: ./docker/build/php-fpm
+            dockerfile: Dockerfile
+        command: php artisan schedule:run
+        volumes:
+            - ${APPLICATION}:/var/www/html
+        depends_on:
+            - app
         user: 1000:1000
         networks:
             - MyNetwork
@@ -58,11 +88,11 @@ services:
     redis:
         container_name: app_redis
         env_file:
-          - .env
+            - .env
         hostname: laravel-ddd-example.redis
         image: redis
         ports:
-          - "${REDIS_PORT}:${REDIS_PORT}"
+            - "${REDIS_PORT}:${REDIS_PORT}"
         networks:
             - MyNetwork
 volumes:
