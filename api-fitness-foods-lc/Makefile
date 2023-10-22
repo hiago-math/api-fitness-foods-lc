@@ -23,5 +23,11 @@ start:
 shell-app:
 	@docker-compose exec app bash
 
+shell-queue:
+	@docker-compose exec queue-work bash
+
+shell-schedule:
+	@docker-compose exec schedule-runner bash
+
 stop:
 	@docker-compose down
