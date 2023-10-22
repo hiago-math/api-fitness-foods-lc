@@ -2,7 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "DOC API",
-        "version": "0.0.1"
+        "description": "Fitness Foods LC API",
+        "version": "1.0"
     },
     "paths": {
         "/api/products/{code}": {

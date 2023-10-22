@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
 
 /**
- * @OA\Info(title="DOC API", version="0.0.1")
+ * @OA\Info(title="DOC API", description="Fitness Foods LC API", version="1.0")
  */
 class Controller extends BaseController
 {

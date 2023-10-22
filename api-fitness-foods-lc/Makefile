@@ -17,7 +17,7 @@ start:
 	@docker-compose exec app php artisan key:generate
 	@echo "Comando 'make start' executado com sucesso."
 	@echo "URL API ${APP_URL}:${NGINX_HOST_HTTP_PORT}/api"
-	@echo "URL WEB ${APP_URL}:${NGINX_HOST_HTTP_PORT}"
+	@echo "URL WEB ${APP_URL}:${NGINX_HOST_HTTP_PORT}/api/documentation"
 	@echo $(shell date +"%Y-%m-%d %H:%M:%S") > storage/app/uptime.txt
 
 shell-app:
