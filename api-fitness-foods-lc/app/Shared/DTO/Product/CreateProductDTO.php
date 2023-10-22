@@ -139,8 +139,8 @@ class CreateProductDTO extends DTOAbstract
      * @param string|null $ingredients_text
      * @param string|null $traces
      * @param string|null $serving_size
-     * @param float|null $serving_quantity
-     * @param float|null $nutriscore_score
+     * @param string|null $serving_quantity
+     * @param string|null $nutriscore_score
      * @param string|null $nutriscore_grade
      * @param string|null $main_category
      * @param string|null $image_url

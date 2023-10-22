@@ -8,6 +8,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
 
+/**
+ * @OA\Info(title="DOC API", version="0.0.1")
+ */
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;

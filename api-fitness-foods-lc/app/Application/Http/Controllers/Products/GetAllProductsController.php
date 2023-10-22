@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 use Shared\DTO\Utils\PaginateDTO;
 
 class GetAllProductsController extends Controller
-{
+{z
     public function __invoke(
         Request            $request,
         PaginateDTO        $paginateDto,
