@@ -26,7 +26,11 @@ Certifique-se de seguir as instruções específicas do desafio para implementar
 
 Para instalar e executar a API em seu ambiente local, siga estas etapas:
 
-Dentro do repositorio api-fitness-foods-lc rode: 
-   - make start -> Para iniciar o projeto
-   - make shell-app -> Para entrar no container da aplicacao
-   - make stop -> Para descer a aplicacao
+1. Verifique se a máquina possui o docker e docker-compose.
+
+2. Dentro do repositorio api-fitness-foods-lc rode: 
+   - make start -> Para iniciar o projeto.
+   - make shell-app -> Para entrar no container da aplicação.
+   - make shell-schedule -> Para entrar no container do schedule da aplicação.
+   - make shell-queue -> Para entrar no container de fila da aplicação.
+   - make stop -> Para descer a aplicação.
