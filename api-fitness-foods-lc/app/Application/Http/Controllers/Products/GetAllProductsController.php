@@ -12,7 +12,19 @@ use Illuminate\Validation\ValidationException;
 use Shared\DTO\Utils\PaginateDTO;
 
 class GetAllProductsController extends Controller
-{z
+{
+    /**
+     * @OA\Get(
+     *     path="/api/products",
+     *     summary="List all products",
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page of result",
+     *     ),
+     *     @OA\Response(response="200", description="List of products"),
+     * )
+     */
     public function __invoke(
         Request            $request,
         PaginateDTO        $paginateDto,

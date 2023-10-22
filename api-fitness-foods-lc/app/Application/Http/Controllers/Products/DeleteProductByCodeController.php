@@ -12,6 +12,23 @@ use Shared\DTO\Product\UpdatedProductDTO;
 
 class DeleteProductByCodeController extends Controller
 {
+    /**
+     * @OA\Delete(
+     *     path="/api/products/{code}",
+     *     summary="Delete product by code",
+     *     @OA\Parameter(
+     *         name="code",
+     *         in="path",
+     *         required=true,
+     *         description="Code of products",
+     *     ),
+     *     @OA\Response(response="200", description="Produto deletado!"),
+     *     @OA\Response(
+     *          response="404",
+     *          description="Produto não encontrado",
+     *      )
+     * )
+     */
     public function __invoke(
         string                 $code,
         Request                $request,

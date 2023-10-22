@@ -11,6 +11,23 @@ use Illuminate\Validation\ValidationException;
 
 class GetProductByCodeController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/products/{code}",
+     *     summary="List product by code",
+     *     @OA\Parameter(
+     *         name="code",
+     *         in="path",
+     *         required=true,
+     *         description="Code of products",
+     *     ),
+     *     @OA\Response(response="200", description="Produto encontrado"),
+     *     @OA\Response(
+     *          response="404",
+     *          description="Produto não encontrado",
+     *      )
+     * )
+     */
     public function __invoke(
         string                    $code,
         Request                   $request,
