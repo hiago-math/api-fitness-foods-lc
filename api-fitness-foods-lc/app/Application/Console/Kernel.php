@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param \Illuminate\Console\Scheduling\Schedule $schedule
+     * @param Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -21,15 +21,13 @@ class Kernel extends ConsoleKernel
         $schedule->command(DownloadFilesOpenFoodsCommand::class)
             ->dailyAt('00:30');
 
-        $schedule->job(new ProcessDataProductsJob(), 'default')->dailyAt('02:50');
+        $schedule->job(new ProcessDataProductsJob(), 'default')->dailyAt('02:40');
     }
 
     /**
-     * Register the commands for the application.
-     *
-     * @return array
+     * @return void
      */
-    protected function commands()
+    protected function commands(): void
     {
         foreach (get_ddd_domains() as $domain) {
             $dir = base_path('app' . DIRECTORY_SEPARATOR . 'Domain' . DIRECTORY_SEPARATOR . $domain . DIRECTORY_SEPARATOR . 'Commands');
@@ -40,7 +38,11 @@ class Kernel extends ConsoleKernel
         $this->getFileByDir($dir);
     }
 
-    private function getFileByDir(string $dir)
+    /**
+     * @param string $dir
+     * @return void
+     */
+    private function getFileByDir(string $dir): void
     {
         if (File::exists($dir)) {
             foreach (File::files($dir) as $file) {

@@ -89,14 +89,14 @@ class BaseServiceApi
             $multipart = new MultipartStream($multiData['multipart']);
             $request = $request->withBody($multipart);
 
-            send_log("Log de request -> {$uri}: ", [$this->baseUrl, $method, $uri, $multiData]);
+            send_log("Log de request:", [$this->baseUrl, $method, $uri, $multiData]);
         }
 
         if (empty($data)) {
             $data['form-params'] = [];
         }
 
-        send_log("Log de request -> {$uri}: ", [$this->baseUrl, $method, $uri, $data]);
+        send_log("Log de request:", [$this->baseUrl, $method, $uri, $data]);
 
         try {
             $send = $this->client->send($request, $data);
@@ -110,7 +110,7 @@ class BaseServiceApi
 
         $contentsResponse = $send->getBody()->getContents();
 
-        send_log("Log de response -> {$uri}: ", [$uri, $contentsResponse]);
+        send_log("Log de response:", [$uri, hash('md5', $contentsResponse)]);
 
         return $contentsResponse;
     }

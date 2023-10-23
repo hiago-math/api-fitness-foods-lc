@@ -24,6 +24,7 @@ class ProcessDataProductsJob implements ShouldQueue
     ): void
     {
         try {
+            send_log('iniciado Job: ' . __CLASS__);
             $filenames = Storage::disk('downloads')->files('/js');
 
             foreach ($filenames as $filename) {

@@ -1,8 +1,8 @@
 <?php
 
-use Application\Http\Controllers\Errors\GetErrorsElasticsearchController;
+use Application\Http\Controllers\Logs\GetLogsElasticsearchController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('errors')->name('.errors')->group(function () {
-    Route::get('/', GetErrorsElasticsearchController::class)->name('.get.all');
+Route::prefix('logs')->name('.logs')->group(function () {
+    Route::get('/', GetLogsElasticsearchController::class)->name('.get.logs');
 });

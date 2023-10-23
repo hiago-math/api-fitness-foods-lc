@@ -123,7 +123,7 @@ if (!function_exists('send_log')) {
 
         Log::$type($message, $options);
         $options['message'] = $message;
-        Rest::create('errors', $type, $options);
+        Rest::create($type, '_doc', $options);
     }
 }
 

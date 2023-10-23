@@ -6,25 +6,36 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/errors": {
+        "/api/logs": {
             "get": {
                 "summary": "List all products",
-                "operationId": "db7a3042150734bcb3f8d014d19dcdeb",
+                "operationId": "86eba14bae0a42168fa78cbfff4f1018",
                 "parameters": [
+                    {
+                        "name": "index",
+                        "in": "query",
+                        "description": "message of logs",
+                        "required": true
+                    },
                     {
                         "name": "message",
                         "in": "query",
-                        "description": "message of error"
+                        "description": "message of logs"
                     },
                     {
                         "name": "message_exception",
                         "in": "query",
-                        "description": "message_exception of error"
+                        "description": "message_exception of logs"
+                    },
+                    {
+                        "name": "message_exception",
+                        "in": "query",
+                        "description": "message_exception of logs"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of products"
+                        "description": "List of errors elastichsearch"
                     }
                 }
             }

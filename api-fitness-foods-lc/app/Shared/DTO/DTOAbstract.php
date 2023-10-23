@@ -15,8 +15,8 @@ abstract class DTOAbstract
             call_user_func('get_object_vars', $this)
         );
 
-        if (!empty($only)) $return->only($only);
-        if (!empty($except)) $return->except($except);
+        if (!empty($only)) $return = $return->only($only);
+        if (!empty($except)) $return =  $return->except($except);
 
         return $return->toArray();
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Http\Controllers\Errors;
+namespace Application\Http\Controllers\Logs;
 
 use Application\Http\Resource\Errors\GetErrorsElasticsearchResource;
 use Application\Http\Controllers\Controller;
@@ -10,26 +10,32 @@ use Illuminate\Validation\ValidationException;
 use Infrastructure\Elasticsearch\Rest;
 use Shared\DTO\GetErrorElasticsearchDTO;
 
-class GetErrorsElasticsearchController extends Controller
+class GetLogsElasticsearchController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/errors",
+     *     path="/api/logs",
      *     summary="List all products",
+     *     @OA\Parameter(
+     *          name="index",
+     *          in="query",
+     *          description="message of logs",
+     *          required=true
+     *      ),
      *     @OA\Parameter(
      *         name="message",
      *         in="query",
-     *         description="message of error",
+     *         description="message of logs",
      *     ),
      *     @OA\Parameter(
      *          name="message_exception",
      *          in="query",
-     *          description="message_exception of error",
+     *          description="message_exception of logs",
      *      ),
      *     @OA\Parameter(
      *          name="message_exception",
      *          in="query",
-     *          description="message_exception of error",
+     *          description="message_exception of logs",
      *       ),
      *     @OA\Response(response="200", description="List of errors elastichsearch"),
      * )
@@ -41,12 +47,13 @@ class GetErrorsElasticsearchController extends Controller
     {
         try {
             $errorElasticsearchDto->register(
+                $request->get('index'),
                 $request->get('message'),
                 $request->get('message_exception'),
                 $request->get('code'),
             );
 
-            $data = Rest::search('errors', $errorElasticsearchDto);
+            $data = Rest::search($errorElasticsearchDto);
 
             if ($data->isEmpty()) return $this->response_fail([], __('message.return_empty'));
 

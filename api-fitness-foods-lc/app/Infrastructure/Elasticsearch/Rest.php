@@ -25,9 +25,9 @@ class Rest
      * @param GetErrorElasticsearchDTO $errorElasticsearchDto
      * @return Collection
      */
-    public static function search(string $index, GetErrorElasticsearchDTO $errorElasticsearchDto): Collection
+    public static function search(GetErrorElasticsearchDTO $errorElasticsearchDto): Collection
     {
-        $fields = remove_null_array($errorElasticsearchDto->toArray());
+        $fields = remove_null_array($errorElasticsearchDto->toArray(except: ['index']));
 
         if (empty($fields)) return [];
 
@@ -36,6 +36,6 @@ class Rest
                     'match' => $fields
             ],
         ];
-        return (new SearchBuilder($index, payload: $payload))->handle();
+        return (new SearchBuilder($errorElasticsearchDto->index, payload: $payload))->handle();
     }
 }
