@@ -9,6 +9,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('products')->name('.products')->group(function () {
     Route::get('/', GetAllProductsController::class)->name('.get.all');
     Route::get('{code}', GetProductByCodeController::class)->name('.get.by.code');
-    Route::put('/{code}', UpdateProductByCodeController::class)->name('.update.by.code');
+    Route::put('/{code}', UpdateProductByCodeController::class)->name('.updatebycode');
     Route::delete('/{code}', DeleteProductByCodeController::class)->name('.delete.by.code');
 });

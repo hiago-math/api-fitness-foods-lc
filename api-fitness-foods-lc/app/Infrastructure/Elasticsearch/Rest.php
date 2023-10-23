@@ -29,7 +29,7 @@ class Rest
     {
         $fields = remove_null_array($errorElasticsearchDto->toArray(except: ['index']));
 
-        if (empty($fields)) return [];
+        if (empty($fields)) return collect([]);
 
         $payload = [
                 'query' => [

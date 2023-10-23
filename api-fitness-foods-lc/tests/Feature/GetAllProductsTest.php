@@ -7,6 +7,8 @@ use Tests\TestCase;
 
 class GetAllProductsTest extends TestCase
 {
+    CONST ROUTE = '.products.get.all';
+
     /**
      * A basic feature test example.
      *
@@ -14,7 +16,7 @@ class GetAllProductsTest extends TestCase
      */
     public function test_get_all_products()
     {
-        $response = $this->get('/api/products?page=1');
+        $response = $this->get(route(self::ROUTE, ['page' => 1]));
 
         $response->assertStatus(200);
         $response->assertJsonStructure([

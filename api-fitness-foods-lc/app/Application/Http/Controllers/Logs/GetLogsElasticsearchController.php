@@ -4,6 +4,7 @@ namespace Application\Http\Controllers\Logs;
 
 use Application\Http\Resource\Errors\GetErrorsElasticsearchResource;
 use Application\Http\Controllers\Controller;
+use Application\Http\Validators\Logs\LogsElasticsearchValidator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -42,10 +43,13 @@ class GetLogsElasticsearchController extends Controller
      */
     public function __invoke(
         Request                  $request,
-        GetErrorElasticsearchDTO $errorElasticsearchDto
+        GetErrorElasticsearchDTO $errorElasticsearchDto,
+        LogsElasticsearchValidator $logsElasticsearchValidator
     ): JsonResponse
     {
         try {
+            $this->validate($request, $logsElasticsearchValidator::getRules(), $logsElasticsearchValidator::getMessages());
+
             $errorElasticsearchDto->register(
                 $request->get('index'),
                 $request->get('message'),
@@ -55,7 +59,7 @@ class GetLogsElasticsearchController extends Controller
 
             $data = Rest::search($errorElasticsearchDto);
 
-            if ($data->isEmpty()) return $this->response_fail([], __('message.return_empty'));
+            if ($data->isEmpty()) return $this->response_fail(["use os campos 'message', 'message_exception' ou 'code' para refinar a busca!"], __('message.return_empty'));
 
             return $this->response_ok((new GetErrorsElasticsearchResource($data))->toArray($request), __('message.return_ok'));
         } catch (ValidationException $e) {
