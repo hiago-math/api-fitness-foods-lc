@@ -15,6 +15,7 @@ class GetProductByCodeController extends Controller
     /**
      * @OA\Get(
      *     path="/api/products/{code}",
+     *     tags={"Products"},
      *     summary="List product by code",
      *     @OA\Parameter(
      *         name="code",

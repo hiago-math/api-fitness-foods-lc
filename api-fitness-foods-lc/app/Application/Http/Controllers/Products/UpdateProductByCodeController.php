@@ -14,6 +14,7 @@ class UpdateProductByCodeController extends Controller
     /**
      * @OA\Put(
      *     path="/api/products/{code}",
+     *     tags={"Products"},
      *     summary="Atualizar informações de um produto por código",
      *     @OA\Parameter(
      *         name="code",

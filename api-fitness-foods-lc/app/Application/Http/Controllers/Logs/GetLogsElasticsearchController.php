@@ -16,7 +16,8 @@ class GetLogsElasticsearchController extends Controller
     /**
      * @OA\Get(
      *     path="/api/logs",
-     *     summary="List all products",
+     *     summary="List logs",
+     *     tags={"Logs"},
      *     @OA\Parameter(
      *          name="index",
      *          in="query",
@@ -38,7 +39,7 @@ class GetLogsElasticsearchController extends Controller
      *          in="query",
      *          description="message_exception of logs",
      *       ),
-     *     @OA\Response(response="200", description="List of errors elastichsearch"),
+     *     @OA\Response(response="200", description="List of logs elastichsearch"),
      * )
      */
     public function __invoke(

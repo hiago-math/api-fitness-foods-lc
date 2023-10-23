@@ -8,7 +8,10 @@
     "paths": {
         "/api/logs": {
             "get": {
-                "summary": "List all products",
+                "tags": [
+                    "Logs"
+                ],
+                "summary": "List logs",
                 "operationId": "86eba14bae0a42168fa78cbfff4f1018",
                 "parameters": [
                     {
@@ -35,13 +38,16 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of errors elastichsearch"
+                        "description": "List of logs elastichsearch"
                     }
                 }
             }
         },
         "/api/products/{code}": {
             "get": {
+                "tags": [
+                    "Products"
+                ],
                 "summary": "List product by code",
                 "operationId": "38ef2921d58d1f82bcdcd02516bd488b",
                 "parameters": [
@@ -62,6 +68,9 @@
                 }
             },
             "put": {
+                "tags": [
+                    "Products"
+                ],
                 "summary": "Atualizar informações de um produto por código",
                 "operationId": "321e73e3ec07008d6b2a675189400977",
                 "parameters": [
@@ -165,6 +174,9 @@
                 }
             },
             "delete": {
+                "tags": [
+                    "Products"
+                ],
                 "summary": "Delete product by code",
                 "operationId": "f7bab3c82f77afd6b1e717140648abf9",
                 "parameters": [
@@ -187,6 +199,9 @@
         },
         "/api/products": {
             "get": {
+                "tags": [
+                    "Products"
+                ],
                 "summary": "List all products",
                 "operationId": "168342d1a92c4f2fd68833113724f9e5",
                 "parameters": [

@@ -11,11 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Shared\DTO\Utils\PaginateDTO;
 
+
 class GetAllProductsController extends Controller
 {
     /**
      * @OA\Get(
      *     path="/api/products",
+     *     tags={"Products"},
      *     summary="List all products",
      *     @OA\Parameter(
      *         name="page",

@@ -15,6 +15,7 @@ class DeleteProductByCodeController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/products/{code}",
+     *     tags={"Products"},
      *     summary="Delete product by code",
      *     @OA\Parameter(
      *         name="code",
