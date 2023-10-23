@@ -34,3 +34,6 @@ Para instalar e executar a API em seu ambiente local, siga estas etapas:
    - make shell-schedule -> Para entrar no container do schedule da aplicação.
    - make shell-queue -> Para entrar no container de fila da aplicação.
    - make stop -> Para descer a aplicação.
+
+## Gravacao em video
+[VIDEO](https://www.loom.com/embed/55f58ccf4c544693a131fff4a032470d)
