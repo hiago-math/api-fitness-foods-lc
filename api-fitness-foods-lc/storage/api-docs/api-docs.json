@@ -6,6 +6,29 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/errors": {
+            "get": {
+                "summary": "List all products",
+                "operationId": "db7a3042150734bcb3f8d014d19dcdeb",
+                "parameters": [
+                    {
+                        "name": "message",
+                        "in": "query",
+                        "description": "message of error"
+                    },
+                    {
+                        "name": "message_exception",
+                        "in": "query",
+                        "description": "message_exception of error"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of products"
+                    }
+                }
+            }
+        },
         "/api/products/{code}": {
             "get": {
                 "summary": "List product by code",

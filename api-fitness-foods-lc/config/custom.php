@@ -6,4 +6,7 @@ return [
 
     //API's
     'SERVICE_API_OPEN_FOOD' => env('URL_API_OPEN_FOOD'),
+
+    //Elastic
+    'ELASTICSEARCH_URL' => env('ELASTICSEARCH_URL')
 ];

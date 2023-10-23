@@ -50,7 +50,6 @@ class ProductRepository extends AbstractRepository implements IProductRepository
     public function getAllProducts(PaginateDTO $paginateDto): LengthAwarePaginator
     {
         return $this->getModel()
-            ->whereNot('status', StatusProductEnum::TRASH)
             ->paginate($paginateDto->per_page, ['*'], 'page',$paginateDto->page);
     }
 

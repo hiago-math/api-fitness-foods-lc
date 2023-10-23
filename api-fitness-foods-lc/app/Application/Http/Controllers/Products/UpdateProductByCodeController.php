@@ -148,10 +148,12 @@ class UpdateProductByCodeController extends Controller
             }
 
             return $this->response_ok([], __('default.process_ok'));
-        } catch (ValidationException $e) {
+        } catch (ValidationException $e){
+            send_log($e->getMessage(), $e->errors(), 'error', $e);
             return $this->response_fail($e->errors(), __('message.error'));
-        } catch (\Exception $e) {
-            return $this->response_fail($e->getMessage(), __('message.error'), 500);
+        } catch (\Exception $e){
+            send_log($e->getMessage(), $request->all(), 'error', $e);
+            return $this->response_fail($e->getMessage(), __('message.internal_server_error'), 500);
         }
     }
 }

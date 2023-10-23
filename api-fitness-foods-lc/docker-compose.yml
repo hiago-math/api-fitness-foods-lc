@@ -52,7 +52,7 @@ services:
             - ${APPLICATION}:/var/www/html
         depends_on:
             - app
-
+            - redis
         user: 1000:1000
         networks:
             - MyNetwork
@@ -85,6 +85,7 @@ services:
             MONGO_INITDB_ROOT_PASSWORD: root
         networks:
             - MyNetwork
+
     redis:
         container_name: app_redis
         env_file:
@@ -95,15 +96,28 @@ services:
             - "${REDIS_PORT}:${REDIS_PORT}"
         networks:
             - MyNetwork
+
     elasticsearch:
-        image: elasticsearch:8.10.2
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.10.0
+        hostname: elasticsearch.localhost
         container_name: elasticsearch
         ports:
-            - "9200:9200"
+            - "${ELASTICSEARCH_PORT}:${ELASTICSEARCH_PORT}"
         environment:
-            - discovery.type=single-node
+            discovery.type: "single-node"
         networks:
             - MyNetwork
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:8.10.0
+        hostname: kibana.localhost
+        container_name: kibana
+        ports:
+            - "5601:5601"
+        environment:
+            SERVER_NAME: kibana
+            ELASTICSEARCH_URL: http://elasticsearch.localhost:9200
+
 volumes:
     esdata:
     database:

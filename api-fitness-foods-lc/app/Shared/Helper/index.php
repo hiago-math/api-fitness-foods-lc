@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Infrastructure\Elasticsearch\Rest;
 use Jenssegers\Mongodb\Connection;
 use MongoDB\Driver\Exception\AuthenticationException;
 
@@ -111,16 +112,18 @@ if (!function_exists('send_log')) {
      * @param Exception $exception
      * @return void
      */
-    function send_log(string $messgae, array $options = [], string $type = "info", \Exception $exception = null)
+    function send_log(string $message, array $options = [], string $type = "info", \Exception $exception = null)
     {
         if (!is_null($exception)) {
-            $options['message'] = $exception->getMessage();
+            $options['message_exception'] = $exception->getMessage();
             $options['code'] = $exception->getCode();
             $options['file'] = $exception->getFile() . ": " . $exception->getLine();
             $options['trace'] = $exception->getTraceAsString();
         }
 
-        Log::$type($messgae, $options);
+        Log::$type($message, $options);
+        $options['message'] = $message;
+        Rest::create('errors', $type, $options);
     }
 }
 

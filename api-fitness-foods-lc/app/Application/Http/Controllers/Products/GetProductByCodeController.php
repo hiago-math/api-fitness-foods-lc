@@ -2,6 +2,7 @@
 
 namespace Application\Http\Controllers\Products;
 
+use App\Application\Http\Resource\Products\GetProductByCodeResource;
 use Application\Http\Controllers\Controller;
 use Application\Http\Validators\Products\ProductByCodeValidator;
 use Domain\Products\Interfaces\Repositories\IProductRepository;
@@ -42,17 +43,18 @@ class GetProductByCodeController extends Controller
             $this->validate($request, $getProductByCodeValidator::getRules(), $getProductByCodeValidator::getMessages());
 
             $product = $productRepository->getProductByCode($code);
-            dd($product);
 
             if ($product->isEmpty()) {
                 return $this->response_fail([], __('default.process_empty'), 404);
             }
 
-            return $this->response_ok($product, __('default.process_ok'));
-        } catch (ValidationException $e) {
+            return $this->response_ok((new GetProductByCodeResource($product))->toArray($request), __('message.return_ok'));
+        } catch (ValidationException $e){
+            send_log($e->getMessage(), $e->errors(), 'error', $e);
             return $this->response_fail($e->errors(), __('message.error'));
-        } catch (\Exception $e) {
-            return $this->response_fail($e->getMessage(), __('message.error'), 500);
+        } catch (\Exception $e){
+            send_log($e->getMessage(), $request->all(), 'error', $e);
+            return $this->response_fail($e->getMessage(), __('message.internal_server_error'), 500);
         }
     }
 }
