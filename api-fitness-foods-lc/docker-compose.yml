@@ -108,16 +108,6 @@ services:
         networks:
             - MyNetwork
 
-    kibana:
-        image: docker.elastic.co/kibana/kibana:8.10.0
-        hostname: kibana.localhost
-        container_name: kibana
-        ports:
-            - "5601:5601"
-        environment:
-            SERVER_NAME: kibana
-            ELASTICSEARCH_URL: http://elasticsearch.localhost:9200
-
 volumes:
     esdata:
     database:
