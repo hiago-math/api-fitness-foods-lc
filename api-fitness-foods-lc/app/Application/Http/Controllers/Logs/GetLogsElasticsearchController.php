@@ -2,14 +2,16 @@
 
 namespace Application\Http\Controllers\Logs;
 
-use Application\Http\Resource\Errors\GetErrorsElasticsearchResource;
+use Domain\Logs\Interfaces\Services\ILogService;
 use Application\Http\Controllers\Controller;
+use Application\Http\Resource\Errors\GetErrorsElasticsearchResource;
 use Application\Http\Validators\Logs\LogsElasticsearchValidator;
+use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
-use Infrastructure\Elasticsearch\Rest;
-use Shared\DTO\GetErrorElasticsearchDTO;
+use Shared\DTO\Elasticsearch\GetErrorElasticsearchDTO;
 
 class GetLogsElasticsearchController extends Controller
 {
@@ -43,9 +45,10 @@ class GetLogsElasticsearchController extends Controller
      * )
      */
     public function __invoke(
-        Request                  $request,
-        GetErrorElasticsearchDTO $errorElasticsearchDto,
-        LogsElasticsearchValidator $logsElasticsearchValidator
+        Request                    $request,
+        ILogService                $logService,
+        GetErrorElasticsearchDTO   $errorElasticsearchDto,
+        LogsElasticsearchValidator $logsElasticsearchValidator,
     ): JsonResponse
     {
         try {
@@ -58,7 +61,7 @@ class GetLogsElasticsearchController extends Controller
                 $request->get('code'),
             );
 
-            $data = Rest::search($errorElasticsearchDto);
+            $data = $logService->getErrorLogs($errorElasticsearchDto);
 
             if ($data->isEmpty()) return $this->response_fail(["use os campos 'message', 'message_exception' ou 'code' para refinar a busca!"], __('message.return_empty'));
 
@@ -66,6 +69,11 @@ class GetLogsElasticsearchController extends Controller
         } catch (ValidationException $e) {
             send_log($e->getMessage(), $e->errors(), 'error', $e);
             return $this->response_fail($e->errors(), __('message.error'));
+        } catch (Missing404Exception $e) {
+            $response = json_decode($e->getMessage(), true);
+
+            send_log($e->getMessage(), $response, 'error', $e);
+            return $this->response_fail($response, __('message.error_elastic'), Arr::get($response, 'status'));
         } catch (\Exception $e) {
             send_log($e->getMessage(), $request->all(), 'error', $e);
             return $this->response_fail($e->getMessage(), __('message.internal_server_error'), 500);

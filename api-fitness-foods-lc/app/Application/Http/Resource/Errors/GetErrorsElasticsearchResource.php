@@ -10,13 +10,7 @@ class GetErrorsElasticsearchResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'errors' => $this->formatedtHits()
+            'errors' => $this->resource->toArray()
         ];
-    }
-
-    private function formatedtHits()
-    {
-        $firstHit = $this->resource->toArray();
-        return Arr::get($firstHit, 'hits.hits');
     }
 }

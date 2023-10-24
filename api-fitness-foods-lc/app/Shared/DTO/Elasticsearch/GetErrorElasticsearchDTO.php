@@ -1,6 +1,8 @@
 <?php
 
-namespace Shared\DTO;
+namespace Shared\DTO\Elasticsearch;
+
+use Shared\DTO\DTOAbstract;
 
 class GetErrorElasticsearchDTO extends DTOAbstract
 {

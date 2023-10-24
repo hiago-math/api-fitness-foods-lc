@@ -21,9 +21,9 @@ abstract class DTOAbstract
         return $return->toArray();
     }
 
-    public function toJson(array $except = []): string
+    public function toJson(array $except = [], array $only = []): string
     {
-        return json_encode($this->toArray($except));
+        return json_encode($this->toArray($except, $only));
     }
 
     public function isEmpty(): bool

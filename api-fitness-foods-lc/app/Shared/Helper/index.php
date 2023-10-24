@@ -114,16 +114,38 @@ if (!function_exists('send_log')) {
      */
     function send_log(string $message, array $options = [], string $type = "info", \Exception $exception = null)
     {
+        $doctype = \Shared\Enums\DocTypesElasticsearchEnum::DOC;
         if (!is_null($exception)) {
             $options['message_exception'] = $exception->getMessage();
             $options['code'] = $exception->getCode();
             $options['file'] = $exception->getFile() . ": " . $exception->getLine();
             $options['trace'] = $exception->getTraceAsString();
+            $doctype = \Shared\Enums\DocTypesElasticsearchEnum::ERROR;
         }
 
         Log::$type($message, $options);
         $options['message'] = $message;
-        Rest::create($type, '_doc', $options);
+
+        create_log_elastic($type, $doctype, $options);
+    }
+}
+
+if (!function_exists('create_log_elastic')) {
+
+    /**
+     * @param string $index
+     * @param string $doctype
+     * @param array $options
+     * @return void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    function create_log_elastic(string $index, string $doctype, array $options)
+    {
+        $logService = instantiate_class(\Domain\Logs\Interfaces\Services\ILogService::class);
+        $createElasticsearchDto = instantiate_class(\Shared\DTO\Elasticsearch\CreateElasticsearchDTO::class);
+
+        $createElasticsearchDto->register($index, $doctype, $options);
+        $logService->createLog($createElasticsearchDto);
     }
 }
 
